@@ -2,6 +2,8 @@ import telebot
 from bot_logic import gen_pass, gen_emodji, flip_coin 
 from telebot import TeleBot
 from telebot.handler_backends import ContinueHandling
+import time, threading, schedule
+from telebot import TeleBot
 
 bot = telebot.TeleBot("7703178680:AAGntMlCv91haAF8c8uKOye6p1uyImxhYcs")
 
@@ -35,5 +37,10 @@ def send_coin(message):
     coin = flip_coin()
     bot.reply_to(message, f"Монетка выпала так: {coin}")
     return ContinueHandling()
+if __name__ == '__main__':
+    threading.Thread(target=bot.infinity_polling, name='bot_infinity_polling', daemon=True).start()
+    while True:
+        schedule.run_pending()
+        time.sleep(1)
 
 bot.polling()
